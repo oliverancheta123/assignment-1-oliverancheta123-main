@@ -48,5 +48,57 @@ int main(int argc, char **argv) {
 
   /** Start processing file and separate into words */
   // TODO: Write linecount
+  
+  table_string *hash = table_string_allocate(8);
+  if (!hash) {
+    return 1;
+  }
+
+  vector_char_t *word = vector_char_allocate();
+  if (!word) {
+    return 1;
+  }
+
+  int lineCount = 0;
+
+  char *copy = source;
+
+  while (*copy != '\0') {
+
+    if ((*copy >= 'a' && *copy <= 'z') ||
+      (*copy >= 'A' && *copy <= 'Z')) {
+      
+      vector_char_add(word, *copy);
+    } 
+/*
+    else if (*copy == '\n') {
+      table_string_insert_or_add(hash, word, lineCount);
+      lineCount++;
+    }
+*/
+    else {
+      if (word->len > 0) {
+
+        char *wordCpy = malloc(word->len + 1);  // +1 for null terminator
+
+        for (int j = 0; j < word->len; j++) {
+          wordCpy[j] = vector_char_get(word, j); // get only valid chars
+        }
+        wordCpy[word->len] = '\0';  // add end of line char
+
+        table_string_insert_or_add(hash, wordCpy, lineCount);
+        
+        lineCount++;
+        word->len = 0;
+      }
+    }
+    copy++;
+  }
+
+  free(source);
+  table_string_print(hash);
+  vector_char_delete(word);
+  table_string_deallocate(hash);
+
   return 0;
 }

@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
   // check. Free all data.
   // Hint: Use vector_char
   vector_char_t *word = vector_char_allocate();
-  if (!word) { // if allocation fails, terminate
+  if (!word) { // if allocation fails terminate
     return 1;
   }
        

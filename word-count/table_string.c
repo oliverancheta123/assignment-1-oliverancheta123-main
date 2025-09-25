@@ -38,11 +38,14 @@ table_string *table_string_allocate(unsigned int buckets) {
   }
 
   hash->buckets = buckets;
-  hash->heads = calloc(buckets, sizeof(vs_entry_t*)); // set 
+  hash->heads = calloc(buckets, sizeof(vs_entry_t*));
+
   if (!hash->heads) {
     free(hash); // clear memory for empty hash
     return NULL;
   }
+
+  return hash;
 }
 
 /**
@@ -157,6 +160,11 @@ void table_string_print(table_string *ts) {
 
     while (current != NULL) {
       printf("%s: ", current->value);
+
+      for (int line = 0; line < current->size_of_pos; line++) {
+        printf("%d ", current->pos[line]);
+      }
+      putchar('\n');
       current = current->next;
     }
   }

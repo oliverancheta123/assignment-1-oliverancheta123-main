@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
     return 1;
   }
   vector_char_t *word = vector_char_allocate();
-  if (!word) { // if allocation fails, terminate
+  if (!word) {
     return 1;
   }
 
